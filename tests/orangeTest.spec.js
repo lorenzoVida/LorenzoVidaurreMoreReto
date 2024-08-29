@@ -1,9 +1,11 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+import { EmployePage } from '../pages/EmployePage';
 import { LoginPage } from '../pages/LoginPage';
 
 test('login successful and add new employee', async ({ page }) => {
   const login = new LoginPage(page);
+  const employe = new EmployePage(page);
   await login.gotToLoginPage();
   await login.login("Admin","admin123");
 
@@ -13,9 +15,9 @@ test('login successful and add new employee', async ({ page }) => {
   await expect(tituloDashboard).toBeVisible
   await expect(tituloDashboard).toHaveText('Dashboard')
   console.log(tituloTexto)
+  employe.enterPIMMoodule();
   
-  await page.locator("//span[@class='oxd-text oxd-text--span oxd-main-menu-item--name'][normalize-space()='PIM']").click();
-  await page.locator("//button[normalize-space()='Add']").click();
+
   await page.getByPlaceholder("First Name").fill("Lorenzo");
   await page.getByPlaceholder("Middle Name").fill("Lo");
   await page.getByPlaceholder("Last Name").fill("Vidaurre");
