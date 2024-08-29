@@ -1,11 +1,13 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+import { LoginPage } from '../pages/LoginPage';
 
 test('login successful and add new employee', async ({ page }) => {
-  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-  await page.locator("input[placeholder='Username']").fill("Admin");
-  await page.locator("input[placeholder='Password']").fill("admin123");
-  await page.click("button[type='submit']");
+  const login = new LoginPage(page);
+  await login.gotToLoginPage();
+  await login.login("Admin","admin123");
+
+
   const tituloDashboard = await page.locator("//h6[normalize-space()='Dashboard']");
   const tituloTexto = await page.locator("//h6[normalize-space()='Dashboard']").textContent();
   await expect(tituloDashboard).toBeVisible
